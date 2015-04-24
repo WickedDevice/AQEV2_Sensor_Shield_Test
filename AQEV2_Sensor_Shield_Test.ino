@@ -106,7 +106,22 @@ void setup(){
     else{
       pass_status = false;      
       Serial.println(F("Failed."));
-    }    
+    }  
+  
+    Serial.print(F("  Info: SHT25 Serial Number..."));
+    uint8_t serial_number[8] = {0};
+    uint8_t tmp[32] = {0};
+    sht25.getSerialNumber(serial_number);
+    snprintf((char *) tmp, 31, "egg%02X%02X%02X%02X%02X%02X%02X%02X",
+      serial_number[0],
+      serial_number[1],
+      serial_number[2],
+      serial_number[3],
+      serial_number[4],
+      serial_number[5],
+      serial_number[6],
+      serial_number[7]);
+    Serial.println((char *) tmp);                
   }
   else {
     pass_status = false;
