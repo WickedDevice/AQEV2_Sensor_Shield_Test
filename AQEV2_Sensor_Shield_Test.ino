@@ -3,11 +3,14 @@
 #include <MCP342x.h>
 #include <LMP91000.h>
 #include <SHT25.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BMP280.h>
 
 WildFire wf;
 LMP91000 lmp91000;
 MCP342x adc;
 SHT25 sht25;
+Adafruit_BMP280 bmp; 
 
 #define TEST_VARIOUS_LMP91000_SETTINGS_PER_SLOT 0
 
@@ -128,6 +131,51 @@ void setup() {
   else {
     pass_status = false;
     Serial.println(F("Failed."));
+  }
+
+  if (pass_status) {
+    Serial.println(F("PASS"));
+  }
+  else {
+    Serial.println(F("FAIL"));
+  }
+  Serial.println();
+
+
+  // Test the BMP280 if it's present
+  Serial.println(F("+--------+"));
+  Serial.println(F("| BMP280 |"));
+  Serial.println(F("+--------+"));
+  Serial.print(F("  Info: BMP280 Initization..."));
+
+  pass_status = true;
+  
+  if (bmp.begin()) {
+    Serial.println(F("OK."));    
+    float bmp280_pressure = 0.0f;
+    for(uint8_t ii = 0; ii < 10; ii++){
+      bmp.readPressure();
+    }
+    bmp280_pressure = 1.0f*bmp.readPressure();
+    
+    Serial.print(F("  Info: BMP280 Pressure..."));
+    Serial.print((uint32_t) bmp280_pressure);
+    Serial.print(F(" Pa"));
+    if(bmp280_pressure > 102000.0f){
+      Serial.print(F("... Failed > 102000.0f"));
+      pass_status = false;
+    }
+    else if(bmp280_pressure < 96000.0f){
+      Serial.print(F("... Failed < 96000.0f"));
+      pass_status = false;
+    }
+    else{
+      Serial.print(F("... OK"));
+    }
+    Serial.println();
+  }
+  else {   
+    Serial.println(F("Not present."));
   }
 
   if (pass_status) {
