@@ -72,7 +72,10 @@ void setup() {
         pass_status = false;
       }
     }
-
+    
+    Serial.print(F("Result: Slot "));
+    Serial.print(ii+1);
+    Serial.print(" ");
     if (pass_status) {
       Serial.println(F("PASS"));
     }
@@ -133,6 +136,7 @@ void setup() {
     Serial.println(F("Failed."));
   }
 
+  Serial.print(F("Result: SHT25 "));
   if (pass_status) {
     Serial.println(F("PASS"));
   }
@@ -178,6 +182,7 @@ void setup() {
     Serial.println(F("Not present."));
   }
 
+  Serial.print(F("Result: BMP280 "));
   if (pass_status) {
     Serial.println(F("PASS"));
   }
@@ -186,6 +191,8 @@ void setup() {
   }
   Serial.println();
 
+  Serial.print(F("Test Complete."));
+  Serial.println();
 }
 
 boolean testSlot(uint8_t ii) {
@@ -195,7 +202,7 @@ boolean testSlot(uint8_t ii) {
   Serial.print(ii + 1);
   Serial.print(F(" AFE Initization..."));
 
-  if(ii = 0){
+  if(ii == 0){
     if (lmp91000.configure(
           LMP91000_TIA_GAIN_350K | LMP91000_RLOAD_10OHM,
           LMP91000_REF_SOURCE_EXT | LMP91000_INT_Z_20PCT
