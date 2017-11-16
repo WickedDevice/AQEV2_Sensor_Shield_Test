@@ -179,6 +179,7 @@ void setup() {
     Serial.println();
   }
   else {   
+    pass_status = false;
     Serial.println(F("Not present."));
   }
 
