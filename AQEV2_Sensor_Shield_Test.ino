@@ -159,6 +159,7 @@ void setup() {
     float bmp280_pressure = 0.0f;
     for(uint8_t ii = 0; ii < 10; ii++){
       bmp.readPressure();
+      delay(10);
     }
     bmp280_pressure = 1.0f*bmp.readPressure();
     
